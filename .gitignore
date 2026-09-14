@@ -1,0 +1,19 @@
+# ---------- 操作系统产生的垃圾文件 ----------
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# ---------- 编辑器 / IDE ----------
+.vscode/
+.idea/
+*.swp
+
+# ---------- 依赖与日志（本站是纯静态，本来就不需要） ----------
+node_modules/
+npm-debug.log*
+yarn-error.log*
+*.log
+
+# ---------- 临时文件 ----------
+*.tmp
+~$*

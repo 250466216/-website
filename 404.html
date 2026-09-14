@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="页面不存在 —— 光影志 LUMINA 摄影作品集。" />
+  <meta name="robots" content="noindex" />
+  <title>这一页走丢了 | 光影志 LUMINA</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>" />
+
+  <!--
+    =========================================================
+     404.html —— 自定义错误页
+    ---------------------------------------------------------
+     本站被部署到任意「静态托管」时，服务器找不到地址就会返回这一页
+     （Cloudflare Pages / Netlify / GitHub Pages 都会自动识别根目录的 404.html）。
+
+     ⚠️ 本页刻意做成「完全自包含」：样式全部内联，不引用 css/style.css。
+        因为 404 页是在任意错误地址下被返回的，相对路径在不同层级会失效，
+        自包含可以保证无论地址多深、部署在根目录还是子目录，样式都不会跑掉。
+
+     ⚙️ 页面里的链接默认写成根路径（href="/"、"/#works" …）。
+        若站点部署在【子目录】（例如 GitHub Pages 项目页 https://用户名.github.io/仓库名/），
+        只需改动文件末尾那一处 SITE_BASE（填 '/仓库名/'），所有链接会自动带上前缀，
+        不用一条条改。
+    =========================================================
+  -->
+  <style>
+    :root {
+      --bg: #0d0d0f;
+      --line: rgba(255, 255, 255, 0.1);
+      --text: #f3f0ea;
+      --text-muted: #a09d97;
+      --text-dim: #6f6c67;
+      --accent: #d9a866;
+      --font-sans: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Segoe UI", Roboto, Arial, sans-serif;
+      --font-serif: "Songti SC", "Noto Serif SC", Georgia, "Times New Roman", serif;
+      --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.75;
+      letter-spacing: 0.01em;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .topbar {
+      border-bottom: 1px solid var(--line);
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 10px;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .brand strong {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      letter-spacing: 0.14em;
+      font-weight: 500;
+    }
+
+    .brand em {
+      font-style: normal;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      color: var(--text-dim);
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 72px 0 88px;
+    }
+
+    .inner {
+      max-width: 620px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .code {
+      margin: 0 0 4px;
+      font-family: var(--font-serif);
+      font-size: clamp(84px, 18vw, 148px);
+      line-height: 1;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      font-family: var(--font-serif);
+      font-size: clamp(23px, 3.4vw, 33px);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    .lead {
+      margin: 0 0 34px;
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 30px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.25s var(--ease), background-color 0.25s var(--ease),
+        border-color 0.25s var(--ease), color 0.25s var(--ease);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #191108;
+    }
+
+    .btn-primary:hover {
+      background: #e6b877;
+    }
+
+    .btn-ghost {
+      border-color: rgba(255, 255, 255, 0.42);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: #fff;
+    }
+
+    .quick {
+      margin: 42px 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      justify-content: center;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+    }
+
+    .quick a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.25s var(--ease);
+    }
+
+    .quick a:hover {
+      color: var(--accent);
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 22px 0;
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">
+        <strong>光影志</strong>
+        <em>LUMINA&nbsp;STUDIO</em>
+      </a>
+    </div>
+  </div>
+
+  <main>
+    <div class="wrap">
+      <div class="inner">
+        <p class="code">404</p>
+        <h1>这一页走丢了</h1>
+        <p class="lead">
+          你要找的地址不存在，或者链接已经改动过。<br />
+          不妨回到首页，从作品集开始慢慢看。
+        </p>
+
+        <div class="actions">
+          <a class="btn btn-primary" href="/">回到首页</a>
+          <a class="btn btn-ghost" href="/#works">浏览作品集</a>
+        </div>
+
+        <nav class="quick" aria-label="快捷导航">
+          <a href="/">首页</a>
+          <span aria-hidden="true">·</span>
+          <a href="/#works">作品集</a>
+          <span aria-hidden="true">·</span>
+          <a href="/#about">关于我</a>
+          <span aria-hidden="true">·</span>
+          <a href="/#contact">联系我</a>
+        </nav>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>© 光影志 LUMINA · 站内照片均为本人拍摄，未经许可请勿转载。</p>
+    </div>
+  </footer>
+
+  <!--
+    ⚙️ 部署位置适配（只改这一行）：
+       根目录部署（Cloudflare Pages / Netlify / https://用户名.github.io）→ 保持 ''
+       子目录部署（GitHub Pages 项目页 https://用户名.github.io/仓库名/）→ 填 '/仓库名/'
+       中文仓库名要填浏览器地址栏里那串百分号编码，例如
+       '/AI%E8%BE%85%E5%8A%A9%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/'
+
+       当前已按 GitHub 仓库 github.com/250466216/-website 配置：
+       站点地址 = https://250466216.github.io/-website/
+  -->
+  <script>
+    var SITE_BASE = '/-website/';
+    if (SITE_BASE) {
+      Array.prototype.forEach.call(document.querySelectorAll('a[href^="/"]'), function (link) {
+        link.setAttribute('href', SITE_BASE + link.getAttribute('href').slice(1));
+      });
+    }
+  </script>
+
+</body>
+</html>

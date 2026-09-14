@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="光影志 LUMINA —— 摄影作品集个人网站，收录风光、动物、建筑、街拍与花草摄影作品。" />
+  <meta name="author" content="光影志" />
+  <title>光影志 LUMINA | 摄影作品集</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ========== 顶部导航 ========== -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a class="brand" href="#home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-text">
+          <strong>光影志</strong>
+          <em>LUMINA&nbsp;STUDIO</em>
+        </span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="打开导航菜单">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="main-nav" id="mainNav" aria-label="主导航">
+        <ul>
+          <li><a href="#home" class="is-active">首页</a></li>
+          <li><a href="#works">作品集</a></li>
+          <li><a href="#about">关于我</a></li>
+          <li><a href="#contact">联系我</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ========== 首屏 ========== -->
+    <section class="hero" id="home">
+      <div class="hero-media">
+        <img src="images/hero.jpg" alt="首屏大图：湖上落日与孤树" id="heroImage" />
+        <span class="hero-scrim"></span>
+      </div>
+
+      <div class="container hero-content">
+        <p class="hero-eyebrow">风光 · 动物 · 建筑 · 街拍 · 花草</p>
+        <h1 class="hero-title">用光影<br /><span>记录时间的样子</span></h1>
+        <p class="hero-sub">
+          这里收录的是我在 2025—2026 年间拍下的日常：湖面的光、天边的云、园林的曲线，
+          还有草地上晒太阳的猫。随手举起手机，把看见的留住。
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#works">浏览作品</a>
+          <a class="btn btn-ghost" href="#contact">合作 · 留言</a>
+        </div>
+      </div>
+
+      <a class="hero-scroll" href="#works" aria-label="向下浏览作品">
+        <span class="hero-scroll-line"></span>
+        <span class="hero-scroll-text">SCROLL</span>
+      </a>
+    </section>
+
+    <!-- ========== 作品集 ========== -->
+    <section class="section works" id="works">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-eyebrow">PORTFOLIO</p>
+          <h2 class="section-title">作品集</h2>
+          <p class="section-desc">按主题分类浏览；点击任意作品可放大查看，并按 ← → 键切换上一张 / 下一张。</p>
+        </header>
+
+        <div class="filters reveal" id="filters" role="group" aria-label="作品分类筛选">
+          <button class="filter-btn is-active" data-filter="all" type="button">全部 <span class="filter-count" data-count="all">0</span></button>
+          <button class="filter-btn" data-filter="landscape" type="button">风光 <span class="filter-count" data-count="landscape">0</span></button>
+          <button class="filter-btn" data-filter="animal" type="button">动物 <span class="filter-count" data-count="animal">0</span></button>
+          <button class="filter-btn" data-filter="architecture" type="button">建筑 <span class="filter-count" data-count="architecture">0</span></button>
+          <button class="filter-btn" data-filter="street" type="button">街拍 <span class="filter-count" data-count="street">0</span></button>
+          <button class="filter-btn" data-filter="plant" type="button">花草 <span class="filter-count" data-count="plant">0</span></button>
+        </div>
+
+        <div class="gallery-grid" id="galleryGrid" aria-live="polite"></div>
+        <p class="gallery-empty" id="galleryEmpty" hidden>该分类下暂时还没有作品。</p>
+
+        <noscript>
+          <p class="gallery-noscript">
+            作品集需要开启 JavaScript 才能加载，你也可以直接打开 <code>images/</code> 目录查看图片文件。
+          </p>
+        </noscript>
+      </div>
+    </section>
+
+    <!-- ========== 关于我 ========== -->
+    <section class="section about" id="about">
+      <div class="container about-inner">
+        <figure class="about-photo reveal">
+          <img src="images/about.jpg" alt="暮湖柳影：夕阳下的湖面与垂柳" loading="lazy" />
+          <figcaption>暮湖柳影 · 2026</figcaption>
+        </figure>
+
+        <div class="about-text">
+          <p class="section-eyebrow reveal">ABOUT ME</p>
+          <h2 class="section-title reveal">关于我</h2>
+          <p class="reveal">
+            我不是器材党，这些照片几乎都是用手上一台手机（OPPO Reno13）拍的——
+            走在湖边看到好看的光就停下来，等云和天色刚好，然后按下快门。
+          </p>
+          <p class="reveal">
+            照片按五个方向整理：<strong>风光</strong>收集湖面的光与天边的云，
+            <strong>动物</strong>记录猫、天鹅与野鸭的松弛，<strong>建筑</strong>看园林的曲线和城市的秩序，
+            <strong>街拍</strong>留住夜晚街巷的灯火，<strong>花草</strong>停在一朵花、一片叶的细节上。
+            如果其中有任何一张让你停留了一秒，欢迎和我聊聊。
+          </p>
+
+          <ul class="about-stats reveal">
+            <li><strong data-count-to="44" data-suffix=" 张">0</strong><span>站内作品</span></li>
+            <li><strong data-count-to="5" data-suffix=" 类">0</strong><span>拍摄题材</span></li>
+            <li><strong data-count-to="2" data-suffix=" 年">0</strong><span>持续记录（2025–2026）</span></li>
+          </ul>
+
+          <div class="about-gear reveal">
+            <h3>常用器材</h3>
+            <ul>
+              <li>器材：OPPO Reno13 手机（主摄 f/1.8 ／ 超广角 f/2.2）</li>
+              <li>题材：风光 · 动物 · 建筑 · 街拍 · 花草</li>
+              <li>作品信息里的光圈 / 快门 / ISO 均来自照片原始 EXIF</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 联系我 ========== -->
+    <section class="section contact" id="contact">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-eyebrow">GET IN TOUCH</p>
+          <h2 class="section-title">联系我</h2>
+          <p class="section-desc">图片授权、合作邀约，或只是想聊聊摄影，都可以给我留言。</p>
+        </header>
+
+        <div class="contact-inner">
+          <ul class="contact-list reveal">
+            <li>
+              <span class="contact-icon" aria-hidden="true">◈</span>
+              <div>
+                <h3>QQ</h3>
+                <span>2791187784</span>
+              </div>
+            </li>
+            <li>
+              <span class="contact-icon" aria-hidden="true">◎</span>
+              <div>
+                <h3>常驻地</h3>
+                <span>上海 · 广州</span>
+              </div>
+            </li>
+          </ul>
+
+          <form class="contact-form reveal" id="contactForm" novalidate>
+            <div class="field">
+              <label for="cfName">你的称呼 <span aria-hidden="true">*</span></label>
+              <input type="text" id="cfName" name="name" placeholder="怎么称呼你？" required />
+            </div>
+            <div class="field">
+              <label for="cfEmail">邮箱 <span aria-hidden="true">*</span></label>
+              <input type="email" id="cfEmail" name="email" placeholder="you@example.com" required />
+            </div>
+            <div class="field">
+              <label for="cfType">合作类型</label>
+              <select id="cfType" name="type">
+                <option value="图片授权">图片授权</option>
+                <option value="商业合作">商业合作</option>
+                <option value="一起外拍">一起外拍</option>
+                <option value="其他">其他</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cfMessage">想说的话 <span aria-hidden="true">*</span></label>
+              <textarea id="cfMessage" name="message" rows="5" placeholder="拍摄时间、地点、想法……" required></textarea>
+            </div>
+
+            <button class="btn btn-primary btn-block" type="submit">发送留言</button>
+            <p class="form-hint">当前为纯前端演示，提交后不会真的发送邮件。</p>
+            <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== 页脚 ========== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <strong>光影志 · LUMINA</strong>
+        <p>把看见的光，留成可以再看一遍的东西。</p>
+      </div>
+
+      <nav class="footer-nav" aria-label="页脚导航">
+        <a href="#home">首页</a>
+        <a href="#works">作品集</a>
+        <a href="#about">关于我</a>
+        <a href="#contact">联系我</a>
+      </nav>
+
+      <p class="footer-note">
+        © <span id="year">2025</span> 光影志 LUMINA · 保留所有权利<br />
+        站内照片均为本人拍摄，未经许可请勿转载。
+      </p>
+    </div>
+  </footer>
+
+  <!-- ========== 大图查看器 ========== -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="作品大图查看" hidden>
+    <button class="lightbox-close" id="lightboxClose" type="button" aria-label="关闭（Esc）">✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" type="button" aria-label="上一张（←）">‹</button>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" type="button" aria-label="下一张（→）">›</button>
+
+    <figure class="lightbox-figure">
+      <img alt="" id="lightboxImage" />
+      <figcaption class="lightbox-caption">
+        <h3 id="lightboxTitle"></h3>
+        <p>
+          <span class="lightbox-tag" id="lightboxCategory"></span>
+          <span id="lightboxMeta"></span>
+        </p>
+      </figcaption>
+    </figure>
+
+    <p class="lightbox-counter" id="lightboxCounter"></p>
+  </div>
+
+  <button class="to-top" id="toTop" type="button" aria-label="回到顶部">↑</button>
+
+  <script src="js/gallery-data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+# =============================================================
+#  _headers —— 缓存与安全响应头
+#  ---------------------------------------------------------
+#  Cloudflare Pages / Netlify 会自动读取本文件；
+#  GitHub Pages 会忽略它（不会有任何副作用）。
+#
+#  缓存策略说明：
+#   · 图片：7 天。将来换了照片而文件名没变时，最多 7 天后自动更新
+#           （想立刻生效：Ctrl+F5 强刷，或到托管后台 Purge cache）。
+#   · css / js：1 小时，方便改样式和作品数据后较快生效。
+#   · index.html 不设置长缓存，保证页面结构改动随时可见。
+# =============================================================
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+
+/images/*
+  Cache-Control: public, max-age=604800
+
+/css/*
+  Cache-Control: public, max-age=3600
+
+/js/*
+  Cache-Control: public, max-age=3600

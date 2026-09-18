@@ -44,9 +44,12 @@ my-website/
 │  ├─ hero.jpg                      # 首屏大图（长边 1920px）
 │  ├─ about.jpg                     # 「关于我」配图（长边 1100px 竖图）
 │  ├─ work-01.jpg ~ work-44.jpg     # 作品大图（灯箱里显示，平均 281KB）
-│  └─ thumbs/work-01.jpg ~ 44.jpg   # 网格缩略图（长边 900px，平均 108KB，首屏更快）
+│  ├─ thumbs/work-01.jpg ~ 44.jpg   # 网格缩略图（长边 900px，平均 108KB，首屏更快）
+│  └─ download/work-01.jpg ~ 44.jpg # ★ 下载用带水印原图（长边 1800px，平均 473KB）
 ├─ scripts/
-│  └─ import-photos.ps1             # ★ 批量导入 / 压缩 / 自动生成作品数据的脚本
+│  ├─ import-photos.ps1             # ★ 批量导入 / 压缩 / 自动生成作品数据的脚本
+│  ├─ make-watermarked.ps1          # ★ 生成「下载版」带水印原图的脚本
+│  └─ watermark-text.txt            # 水印文案（UTF-8 两行，改完重跑脚本即可）
 ├─ DEPLOY.md                        # ★ 发布上线指南（拖拽上传 / Git 自动部署 / 国内访问说明）
 ├─ _headers                         # 缓存与安全响应头（Cloudflare Pages / Netlify 自动读取）
 ├─ .nojekyll                        # 让 GitHub Pages 跳过 Jekyll 处理
@@ -124,6 +127,14 @@ powershell -ExecutionPolicy Bypass -File .\scripts\import-photos.ps1 `
 > 省略 `-ProjectRoot` 时脚本自动使用自己所在目录的上一级（即站点根目录）。
 > 脚本细节见第六节。
 
+4. **（别忘）顺手更新下载版**：`images/work-NN.jpg` 一旦重新生成，`images/download/work-NN.jpg` 也要跟着重跑一次，否则下载按钮给出去的还是旧照片：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\make-watermarked.ps1 `
+  -MapFile "$env:TEMP\lumina-map.txt" `
+  -SourceFolderFile "$env:TEMP\lumina-folder.txt"
+```
+
 ---
 
 ## 四、功能说明
@@ -134,6 +145,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\import-photos.ps1 `
 | 分类筛选 | 「全部 / 风光 / 动物 / 建筑 / 街拍 / 花草」，每个按钮实时显示该分类作品数量（数据一变自动更新） |
 | 缩略图 + 懒加载 | 网格加载 900px 缩略图（`thumb`），点开才下载 1400px 大图（`src`）；44 张作品首屏依然很轻 |
 | 大图灯箱 | 点击作品放大：全屏黑色 90% 遮罩（`z-index: 2000`）+ 居中，**0.3s 淡入淡出**；`←` `→` 切换、`Esc` 关闭、点遮罩关闭；手机可左右滑动；自动预加载前后一张 |
+| 灯箱内下载 | 右上角「下载」按钮（关闭键左边）直接保存 `images/download/work-NN.jpg`：**带水印的 1800px 原图**，比页面显示的 1400px 更清晰；文件名形如 `LUMINA-work-01-霞映湖城.jpg` |
 | 首屏视差 | 背景图缓慢推近 + 渐显文字，`Scroll` 指示条 |
 | 滚动动画 | 内容进入视口淡入上移，统计数字滚动到目标值 |
 | 联系表单 | 姓名 / 邮箱 / 留言必填校验，错误高亮提示（纯前端演示，**没有后端**） |
@@ -141,6 +153,13 @@ powershell -ExecutionPolicy Bypass -File .\scripts\import-photos.ps1 `
 | 打印样式 | 打印时自动隐藏导航、灯箱、筛选等交互元素 |
 
 浏览器兼容：Chrome / Edge / Firefox / Safari 近两年的版本；未使用任何第三方库。
+
+> **关于水印，先说清楚它管什么、不管什么**：
+> 网页里显示的 `images/work-NN.jpg` 是**无水印**的（刻意如此，画面干净）；
+> 只有**下载按钮**给的那份 `images/download/work-NN.jpg` 右下角烧入了「光影志 LUMINA / QQ 2791187784 · 未经许可请勿商用」。
+> ⚠️ 所以：**右键「图片另存为」、或直接把页面那张图的网址发给别人，拿到的仍然是无水印图**；
+> 截图就更拦不住。水印的意义是**署名与溯源**（照片被转到别处时还能看出出处），不是技术上的防盗。
+> 想连页面显示那张也带水印，只能自己取舍：画面上会一直挂着字。
 
 ---
 
@@ -159,6 +178,10 @@ powershell -ExecutionPolicy Bypass -File .\scripts\import-photos.ps1 `
 | 灯箱层级（被别的东西盖住时） | `css/style.css` 里 `.lightbox` 的 `z-index`（现在是 2000，导航是 100） |
 | 缩略图 / 大图的尺寸与画质 | 重跑 `scripts/import-photos.ps1`，调 `-ThumbEdge` / `-FullEdge` / `-Quality` |
 | 首屏大图、「关于我」配图 | 重跑脚本时用 `-HeroSource` / `-AboutSource` 换成别的照片 |
+| 下载版的水印文案（品牌名 / QQ / 版权声明） | `scripts/watermark-text.txt`（UTF-8 两行），改完重跑 `scripts/make-watermarked.ps1` |
+| 下载版的尺寸与画质 | 重跑 `scripts/make-watermarked.ps1`，调 `-LongEdge` / `-Quality` |
+| 下载版水印的大小 / 位置 / 透明度 | `scripts/make-watermarked.ps1` 里 `Add-Watermark` 顶部那几个系数（如 `0.033` = 字号占长边的比例，`0.028` = 离边距离） |
+| 下载文件名的命名规则 | `js/main.js` 里的 `downloadName()`（现在是 `LUMINA-作品编号-作品名.jpg`） |
 
 ---
 
@@ -194,9 +217,52 @@ powershell -ExecutionPolicy Bypass -File .\scripts\import-photos.ps1 `
 
 ---
 
+### 导出带水印的「下载版」：`scripts/make-watermarked.ps1`
+
+灯箱里的下载按钮给的不是页面这张图，而是从**原始素材**重新导出、并**把水印烧进像素**的 1800px 版本。
+
+| 步骤 | 说明 |
+| --- | --- |
+| 1. 尺寸 | 从原始照片导出，长边 1800px（比页面显示的 1400px 更清晰）；原图本身不足 1800px 的**不放大**，保持原尺寸 |
+| 2. 水印 | 右下角两行：主行 `光影志 LUMINA`（字号 = 长边 × 3.3%），次行 `QQ 2791187784 · 未经许可请勿商用`（长边 × 1.8%）；白色文字 + 半透明黑描边，亮天空和暗树影上都看得清 |
+| 3. 输出 | `images/download/work-NN.jpg`，JPEG 质量 86（44 张约 20MB，平均 473KB） |
+| 4. 编号 | **与 `import-photos.ps1` 用同一份映射表**，所以 `download/work-NN.jpg` 永远是 `work-NN.jpg` 的下载版 |
+| 5. 报告 | 每张的结果写入 `%TEMP%\lumina-watermark-report.tsv`（源文件 / 标题 / 输出尺寸 / 字节数） |
+
+命令：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\make-watermarked.ps1 `
+  -MapFile "$env:TEMP\lumina-map.txt" `
+  -SourceFolderFile "$env:TEMP\lumina-folder.txt"
+```
+
+参数一览：
+
+| 参数 | 默认值 | 说明 |
+| --- | --- | --- |
+| `-MapFile` | 必填 | 与导入时**同一份**映射表（决定 work-NN 的编号） |
+| `-SourceFolder` / `-SourceFolderFile` | — | 原始照片文件夹（**不是** `images/`） |
+| `-TextFile` | `scripts\watermark-text.txt` | 水印文案：UTF-8 两行，第一行主标、第二行副标（可留空） |
+| `-LongEdge` / `-Quality` | 1800 / 86 | 下载版长边 / JPEG 质量 |
+| `-OutDir` | `images\download` | 输出目录 |
+| `-Limit` | 0（全部） | 只导出前 N 张，用来快速试水印效果 |
+
+- 换水印文案：改 `scripts/watermark-text.txt` → 重跑上面的命令 → `git push`。
+- 调水印大小 / 位置 / 透明度：改脚本里 `Add-Watermark` 顶部那几个系数（都按长边比例算，换图片尺寸也不会跑偏）。
+- 想**只给下载版加更重的水印**（比如整幅平铺底纹）也可以在这里做，网页显示的那张不受影响。
+
+> 为什么不做成「点了才加水印」？——本站是纯静态的（GitHub Pages 没有后端），浏览器里也没有办法给图片加水印。
+> 预先生成一份带水印的文件、再用 `<a download>` 直接给出去，是唯一 100% 可靠、零依赖的做法，
+> 顺带还让下载版可以比页面版更清晰（1800px vs 1400px）。
+
+---
+
 ## 七、照片与版权
 
 - `images/` 里的 44 张照片均为本人拍摄，页脚已写明「未经许可请勿转载」。
+- **下载版带水印**：`images/download/` 里的 44 张是给访客下载用的，右下角烧入了「光影志 LUMINA / QQ 2791187784 · 未经许可请勿商用」；
+  页面上显示的 `images/work-NN.jpg` 不带水印。水印文案在 `scripts/watermark-text.txt`，改完重跑脚本即可（见第六节）。
 - 作品名是按画面内容拟的，如果某张想改名，直接在 `js/gallery-data.js` 里改 `title` 即可。
 - 网站代码可以随意修改、删减、拿去做自己的项目。
 
@@ -230,5 +296,6 @@ git push -u origin main
 - 部署在子目录时（如 GitHub Pages 项目页 `/仓库名/`），只需把 `404.html` 末尾那处配置改成
   `var SITE_BASE = '/仓库名/';`（**一处生效**，页内所有链接会自动加前缀）；其余文件都是相对路径，无需改动。
 
-> `images/` 共 88 个文件（44 张大图 + 44 张缩略图）约 17MB，第一次上传稍慢是正常的；
+> `images/` 共 132 个文件（44 张大图 + 44 张缩略图 + 44 张下载版）约 **37MB**，第一次上传稍慢是正常的；
 > 之后改内容只需重新上传变动的文件（或 `git push`）。
+> GitHub Pages 的免费额度是「仓库 1GB / 月流量 100GB」，这点体积完全够用。

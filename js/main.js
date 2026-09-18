@@ -40,7 +40,8 @@
     counter: document.getElementById('lightboxCounter'),
     close: document.getElementById('lightboxClose'),
     prev: document.getElementById('lightboxPrev'),
-    next: document.getElementById('lightboxNext')
+    next: document.getElementById('lightboxNext'),
+    download: document.getElementById('lightboxDownload')
   };
 
   /* 当前筛选中可见的作品（灯箱只在这些作品之间切换） */
@@ -68,6 +69,15 @@
     if (photo.place) parts.push(photo.place + '拍摄');
     if (photo.year) parts.push(photo.year + '年');
     return parts.filter(Boolean).join('，');
+  }
+
+  /* 下载按钮保存的文件名，例如 LUMINA-work-01-霞映湖城.jpg
+     照片存到别人电脑里之后，文件名本身也是一条署名线索；
+     Windows 不允许的字符（\ / : * ? " < > |）会被去掉 */
+  function downloadName(photo) {
+    var base = String(photo.src || '').replace(/^.*\//, '').replace(/\.jpe?g$/i, '');
+    var title = String(photo.title || '').replace(/[\\/:*?"<>|]/g, '').trim();
+    return 'LUMINA-' + base + (title ? '-' + title : '') + '.jpg';
   }
 
   /* =========================================================
@@ -262,6 +272,14 @@
     lightbox.title.textContent = photo.title;
     lightbox.category.textContent = categoryLabel(photo.category);
 
+    /* 下载按钮指向「带水印的 1800px 版本」；万一某张没写 download 字段，
+       就退回指向页面上这张（不至于点出一个 404） */
+    if (lightbox.download) {
+      lightbox.download.href = photo.download || photo.src;
+      lightbox.download.setAttribute('download', downloadName(photo));
+      lightbox.download.setAttribute('title', '下载带水印原图（' + (photo.title || '') + '，1800px）');
+    }
+
     var parts = [metaLine(photo), photo.camera].filter(Boolean);
     lightbox.meta.textContent = parts.join(' · ');
     lightbox.counter.textContent =
@@ -325,6 +343,14 @@
 
   function initLightbox() {
     if (!lightbox.root) return;
+
+    /* 老浏览器不支持 <a download>：改成新标签打开，
+       否则点一下就会直接跳离本站去加载那张 JPEG */
+    if (lightbox.download && !('download' in lightbox.download)) {
+      lightbox.download.removeAttribute('download');
+      lightbox.download.target = '_blank';
+      lightbox.download.rel = 'noopener';
+    }
 
     lightbox.close.addEventListener('click', closeLightbox);
     lightbox.prev.addEventListener('click', function () { stepLightbox(-1); });

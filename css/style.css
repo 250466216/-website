@@ -976,7 +976,8 @@ button {
 }
 
 .lightbox-close,
-.lightbox-nav {
+.lightbox-nav,
+.lightbox-download {
   position: absolute;
   display: grid;
   place-items: center;
@@ -989,7 +990,8 @@ button {
 }
 
 .lightbox-close:hover,
-.lightbox-nav:hover {
+.lightbox-nav:hover,
+.lightbox-download:hover {
   background: var(--accent);
   color: #191108;
 }
@@ -1000,6 +1002,25 @@ button {
   width: 42px;
   height: 42px;
   font-size: 0.95rem;
+}
+
+/* 下载按钮：贴在关闭键左边（42px 按钮 + 12px 间距）
+   它保存的是 images/download/work-NN.jpg（带水印的 1800px 版本） */
+.lightbox-download {
+  top: clamp(0.9rem, 3vw, 1.75rem);
+  right: calc(clamp(0.9rem, 3vw, 1.75rem) + 54px);
+  width: 42px;
+  height: 42px;
+}
+
+.lightbox-download svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .lightbox-nav {
@@ -1169,6 +1190,17 @@ button {
 
   .lightbox-figure img {
     max-height: calc(100dvh - 13rem);
+  }
+
+  /* 窄屏把关闭键和下载键一起缩到 40px，避免挤到画面 */
+  .lightbox-close,
+  .lightbox-download {
+    width: 40px;
+    height: 40px;
+  }
+
+  .lightbox-download {
+    right: calc(clamp(0.9rem, 3vw, 1.75rem) + 50px);
   }
 
   .lightbox-nav {

@@ -255,17 +255,26 @@
   /* 与 css/style.css 里 .lightbox 的 transition: opacity 0.3s ease 保持一致 */
   var LIGHTBOX_FADE_MS = 300;
 
-  function photoAt(index) {
+  /* 把任意下标折算回 [0, total) 里的真实位置。
+     灯箱是循环的：最后一张再往后翻会回到第 1 张，
+     所以存下来的下标也必须是折算后的值，否则页码会一路累加成 45/44、46/44…… */
+  function wrapIndex(index) {
     var total = visiblePhotos.length;
-    if (!total) return null;
-    return visiblePhotos[((index % total) + total) % total];
+    if (!total) return 0;
+    return ((index % total) + total) % total;
+  }
+
+  function photoAt(index) {
+    if (!visiblePhotos.length) return null;
+    return visiblePhotos[wrapIndex(index)];
   }
 
   function showLightboxPhoto(index) {
     var photo = photoAt(index);
     if (!photo) return;
 
-    currentIndex = index;
+    /* 存归一化后的下标：页码和「前后各预加载一张」都基于它 */
+    currentIndex = wrapIndex(index);
 
     lightbox.img.src = photo.src;
     lightbox.img.alt = altText(photo);
@@ -286,7 +295,7 @@
       String(currentIndex + 1).padStart(2, '0') + ' / ' + String(visiblePhotos.length).padStart(2, '0');
 
     /* 预加载前后各一张，切换更顺滑 */
-    [index + 1, index - 1].forEach(function (i) {
+    [currentIndex + 1, currentIndex - 1].forEach(function (i) {
       var neighbour = photoAt(i);
       if (neighbour) new Image().src = neighbour.src;
     });

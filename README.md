@@ -287,6 +287,20 @@ git remote add origin https://github.com/你的用户名/仓库名.git
 git push -u origin main
 ```
 
+- **本站当前线上地址**：<https://250466216.github.io/photography/>（仓库 `250466216/photography`，Pages 从 `main` 分支根目录发布）。
+- **仓库改名后必须同步三处**：`git remote set-url origin <新地址>`、`404.html` 末尾的 `SITE_BASE = '/新仓库名/'`、
+  本文件与 `DEPLOY.md` 里写的地址。漏改 `SITE_BASE` 会让 404 页的「回到首页」跳到已经不存在的旧地址；
+  `test-deploy.cjs` 会拿 `git remote` 的仓库名来校验 `SITE_BASE`，漏改会被测试拦住。
+  另外 GitHub **不会**把旧的 Pages 地址重定向到新仓库名，旧网址会直接 404。
+
+**改了 `css/` 或 `js/` 之后，先刷新版本串再提交。** GitHub Pages 会给所有资源加 `Cache-Control: max-age=600`
+（10 分钟）并且**忽略 `_headers`**（`_headers` 只在 Cloudflare Pages / Netlify 生效），所以旧 JS/CSS 可能被浏览器继续用。
+`index.html` 里这三个引用带 `?v=日期-哈希` 后缀，发布前跑一次即可让浏览器必然重新下载：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\bump-assets.ps1
+```
+
 - 已经准备好的发布文件：`404.html`（自定义错误页）、`_headers`（缓存 / 安全响应头）、`.nojekyll`（GitHub Pages 跳过 Jekyll）、`.gitignore`。
 - ⚠️ **上线前注意隐私**：QQ 号会**公开在互联网上**（`index.html` 第 147～153 行的 `.contact-list`），
   QQ 号会被搜索引擎收录、也可能招来陌生好友申请。它比手机号安全得多，但如果你希望更隐蔽，

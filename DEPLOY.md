@@ -76,10 +76,16 @@ git push -u origin main
    **Branch** 选 `main` + **/(root)** → **Save**。
 6. 等 1～2 分钟，网址是 `https://你的用户名.github.io/lumina-photo/`。
 
-> **本次的实际部署目标**：仓库 <https://github.com/250466216/-website>（Public，已配置为 remote `origin`），
-> 站点地址将是 `https://250466216.github.io/-website/`。
-> 因为这是**子目录地址**，`404.html` 末尾的 `SITE_BASE` 已设为 `'/-website/'`
+> **本次的实际部署目标**：仓库 <https://github.com/250466216/photography>（Public，已配置为 remote `origin`），
+> 站点地址是 `https://250466216.github.io/photography/`。
+> 因为这是**子目录地址**，`404.html` 末尾的 `SITE_BASE` 已设为 `'/photography/'`
 > （只改这一处，页内所有链接自动补前缀）。
+>
+> ⚠️ **仓库改名会连带三处，别漏**：① `git remote set-url origin <新仓库地址>`；
+> ② `404.html` 末尾的 `SITE_BASE` 改成 `'/新仓库名/'`；③ 本文件与 `README.md` 里写的地址。
+> 漏改 ② 的话，访客在 404 页点「回到首页」会跳到已经不存在的旧地址（`test-deploy.cjs` 会拿
+> `git remote` 的仓库名来校验 `SITE_BASE`，所以漏改会被测试直接拦住）。
+> 还要知道：**GitHub 不会把旧的 Pages 地址重定向到新仓库名**，旧网址会立刻变成 404。
 >
 > 如果想直接得到 `https://用户名.github.io/`：仓库名必须**正好等于** `用户名.github.io`，
 > 那时把 `SITE_BASE` 改回 `''` 即可。
@@ -118,7 +124,11 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\import-photos.ps1 
   -HeroSource 'IMG_20260202_191822.jpg' `
   -AboutSource 'IMG_20260914_103946.jpg'
 
-# 4) 发布
+# 4) 改了 css/ 或 js/ 的话，先刷新 index.html 里的版本串
+#    （GitHub Pages 强制缓存 10 分钟且忽略 _headers，换版本串才能立刻生效）
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\bump-assets.ps1
+
+# 5) 发布
 git add -A; git commit -m "add new photos"; git push
 #    如果是拖拽上传的托管方式：重新把整个文件夹拖一次即可覆盖
 ```
@@ -163,8 +173,13 @@ git add -A; git commit -m "add new photos"; git push
 不要只把 `index.html` 单独拿出来上传。
 
 **换了照片但网页还是旧的？**
-① 先 `Ctrl + F5` 强刷；② 图片缓存是 7 天（见 `_headers`），
-想立刻全网生效：Cloudflare 后台 → **Caching → Purge Everything**，或把文件名换一个（如 `work-45.jpg`）。
+先分清楚是「图片没换」还是「代码没换」——两者的缓存规则不一样：
+
+| 情况 | GitHub Pages 上的真实行为 | 怎么办 |
+| --- | --- | --- |
+| 换了 `images/` 里的照片（文件名没变） | 所有资源都被 GitHub 加 `Cache-Control: max-age=600`（10 分钟），`_headers` 在这里**不生效** | 等 10 分钟，或 `Ctrl + F5` 强刷，或把文件改名（如 `work-45.jpg`） |
+| 改了 `css/style.css` 或 `js/*.js` | 同上，旧文件可能被浏览器继续用 | 跑 `scripts\bump-assets.ps1` 换掉 `index.html` 的 `?v=` 版本串，再 `git push`（**推荐，一步到位**） |
+| 用 Cloudflare Pages / Netlify 托管 | 这两家**会**读 `_headers`：图片 7 天、css/js 1 小时 | Cloudflare 后台 → **Caching → Purge Everything** 立刻全网生效 |
 
 **部署在子目录时有点问题？**
 GitHub Pages 的项目页地址是 `https://用户名.github.io/仓库名/`，这时把 `404.html` 末尾的

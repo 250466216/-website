@@ -265,11 +265,11 @@
        中文仓库名要填浏览器地址栏里那串百分号编码，例如
        '/AI%E8%BE%85%E5%8A%A9%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/'
 
-       当前已按 GitHub 仓库 github.com/250466216/-website 配置：
-       站点地址 = https://250466216.github.io/-website/
+       当前已按 GitHub 仓库 github.com/250466216/photography 配置：
+       站点地址 = https://250466216.github.io/photography/
   -->
   <script>
-    var SITE_BASE = '/-website/';
+    var SITE_BASE = '/photography/';  /* 仓库改名后这里必须同步，否则本页链接全指向旧地址（test-deploy.cjs 会校验） */
     if (SITE_BASE) {
       Array.prototype.forEach.call(document.querySelectorAll('a[href^="/"]'), function (link) {
         link.setAttribute('href', SITE_BASE + link.getAttribute('href').slice(1));
